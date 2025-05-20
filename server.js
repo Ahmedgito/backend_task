@@ -73,5 +73,21 @@ app.put("/products/:id", (req, res) => {
   writeProducts(products);
 
   res.json(products[index]);
-  
+
+});
+
+// Deleting Product
+app.delete("/products/:id", (req, res) => {
+  const id = req.params.id;
+  const products = readProducts();
+  const index = products.findIndex((p) => p.id == id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  const deletedProduct = products.splice(index, 1)[0];
+  writeProducts(products);
+
+  res.json(deletedProduct);
 });
