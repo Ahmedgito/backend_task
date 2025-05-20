@@ -3,24 +3,40 @@ const fs = require("fs");
 const path = require("path");
 const app = express();
 
-app.use(express.json);
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 const DATA_FILE = path.join(__dirname, "products.json"); //from here ill import data from json file in which i have my products
+
+// helper to read products from file
+function readProducts() {
+  try {
+    const data = fs.readFileSync(DATA_FILE, "utf-8");
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
+}
+
+// helper to write products to file
+function writeProducts(products) {
+    
+  fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
+}
 
 let products = [];
 let useId = 1;
 
 // RestApi 
 
-// Creat API for creating a product
+// Create API for creating a product
+
 app.post("/products", (req, res) => {
     const products = readProducts();
+    const { name, price } = req.body;
 
     const newProduct = {
-
-        id: Date.now(), 
+        id: Date.now().toString(), 
         name,
         price,
     };
@@ -92,4 +108,6 @@ app.delete("/products/:id", (req, res) => {
   res.json(deletedProduct);
 });
 
-app.listen(3000) ;
+app.listen(3000, () => {
+  console.log("Server started on port 3000");
+});
