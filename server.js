@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const DATA_FILE = path.join(__dirname, "products.json"); //from here ill import data from json file in which i have my products
+const DATA_FILE = path.join(__dirname, "products.json"); //from here ill import data from fake json file in which i have my products 
 
 // helper to read products from file
 function readProducts() {
@@ -20,7 +20,7 @@ function readProducts() {
 
 // helper to write products to file
 function writeProducts(products) {
-    
+
   fs.writeFileSync(DATA_FILE, JSON.stringify(products, null, 2));
 }
 
