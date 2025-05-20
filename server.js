@@ -50,5 +50,28 @@ app.get("/products/:id", (req, res) => {
   }
 
   res.json(product);
+
+});
+
+
+//Updating Product
+
+app.put("/products/:id", (req, res) => {
+  const id = req.params.id;
+  const { name, price } = req.body;
+
+  const products = readProducts();
+  const index = products.findIndex((p) => p.id == id);
+
+  if (index === -1) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  if (name !== undefined) products[index].name = name;
+  if (price !== undefined) products[index].price = price;
+
+  writeProducts(products);
+
+  res.json(products[index]);
   
 });
