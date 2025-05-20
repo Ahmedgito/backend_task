@@ -36,5 +36,19 @@ app.get("/products", (req, res) => {
 
   const products = readProducts();
   res.json(products);
+
+});
+
+//Getting Product
+app.get("/products/:id", (req, res) => {
+  const id = req.params.id;
+  const products = readProducts();
+  const product = products.find((p) => p.id == id);
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" });
+  }
+
+  res.json(product);
   
 });
