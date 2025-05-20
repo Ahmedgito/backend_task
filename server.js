@@ -91,3 +91,5 @@ app.delete("/products/:id", (req, res) => {
 
   res.json(deletedProduct);
 });
+
+app.listen(3000) ;
